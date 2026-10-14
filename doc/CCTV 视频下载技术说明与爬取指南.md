@@ -26,7 +26,9 @@ CCTV 网页端为了防止非法下载，采用了基于 WebAssembly (WASM) 的�
 - **接口地址特征**：`[https://vdn.apps.cntv.cn/api/getHttpVideoInfo.do?pid=](https://vdn.apps.cntv.cn/api/getHttpVideoInfo.do?pid=)...`
 - **核心操作**：解析该接口返回的 JSON 消息体，在数据中提取出**未加密的主 M3U8 地址**（通常位于 `hls_cdn_info` 字段）。
 
-> 📌 **主 M3U8 示例**： `[https://hls.cntv.lxdns.com/asp/hls/main/0303000a/3/default/7f6fb5059e0c41d188ecf5f14113bf3e/main.m3u8?maxbr=2048](https://hls.cntv.lxdns.com/asp/hls/main/0303000a/3/default/7f6fb5059e0c41d188ecf5f14113bf3e/main.m3u8?maxbr=2048)`
+> 📌 **主 M3U8 示例**： 
+> `[https://hls.cntv.lxdns.com/asp/hls/main/0303000a/3/default/7f6fb5059e0c41d188ecf5f14113bf3e/main.m3u8?maxbr=2048]
+> (https://hls.cntv.lxdns.com/asp/hls/main/0303000a/3/default/7f6fb5059e0c41d188ecf5f14113bf3e/main.m3u8?maxbr=2048)`
 
 ------
 
