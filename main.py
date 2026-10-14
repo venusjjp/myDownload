@@ -335,7 +335,8 @@ def download_and_merge(
         raise ValueError("ts_m3u8_url 和 ts_m3u8_path 必须同时提供")
 
     # 预处理
-    FFMPEG_PATH = check_ffmpeg()
+    os.makedirs(WORKSPACE, exist_ok=True)
+    ffmpeg_path = check_ffmpeg()
     key_bytes = None
 
     try:
@@ -382,9 +383,9 @@ def download_and_merge(
 
         # 3. 获取ts下载列表
         ts_list = get_ts_list(ts_m3u8_content, ts_m3u8_url)
-            if input_url and is_dytt(input_url):
-                ts_list = remove_advertisement(ts_list)
-                print("[*] 已移除广告片段")
+        if input_url and is_dytt(input_url):
+            ts_list = remove_advertisement(ts_list)
+            print("[*] 已移除广告片段")
 
         # 创建临时目录
         temp_dir = os.path.join(WORKSPACE, f'tmp_({output_file.removesuffix(".mp4")})')
@@ -433,7 +434,7 @@ def download_and_merge(
             return
 
         # 6. 使用 ffmpeg 合并为 MP4
-        merge_with_ffmpeg(temp_dir, output_file, ffmpeg_path=FFMPEG_PATH)
+        merge_with_ffmpeg(temp_dir, output_file, ffmpeg_path=ffmpeg_path)
 
         # 7. （可选）清理临时文件
         print("[*]合并完成，开始清除临时文件...")
@@ -452,16 +453,14 @@ if __name__ == "__main__":
 
     # download_and_merge("我送亲人过大江.mp4", "https://www.dytt001.com/html/play/5021-1-23.html", proxy=False)
 
-    download_and_merge(
-        "SPONE-001 【特典映像収録版】新人NO.1STYLE 国宝級清純フェイスに最強ボディとんでもない原石が遂に、脱ぐ 蒼井すずAVデビュー 蒼井鈴.mp4",
-        input_url="https://adoda-smart-coin.mushroomtrack.com/hls/IzpKk3Fj_QbcQ3hgHIApJQ/1791971519/62000/62557/62557.m3u8",
-        proxy=False
-    )
+    # download_and_merge(
+    #     "SPONE-001 【特典映像収録版】新人NO.1STYLE 国宝級清純フェイスに最強ボディとんでもない原石が遂に、脱ぐ 蒼井すずAVデビュー 蒼井鈴.mp4",
+    #     input_url="https://adoda-smart-coin.mushroomtrack.com/hls/IzpKk3Fj_QbcQ3hgHIApJQ/1791971519/62000/62557/62557.m3u8",
+    # )
 
     download_and_merge(
         "EBOD-699 極美肉感ボディ 究極グラマー愛人と理性吹き飛ぶ中出し不倫性交 しおりさん 神咲詩織.mp4",
         input_url="https://qabo-ahha.mushroomtrack.com/hls/WL9GtnS_eVYEZ5qOn-7BFw/1791971019/1000/1448/1448.m3u8",
-        proxy=False
     )
 
 
