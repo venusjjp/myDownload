@@ -36,7 +36,7 @@ def download_and_merge(
     # 参数检查
     if input_url and final_m3u8_url:
         raise ValueError("不能同时提供 input_url 和 final_m3u8_url")
-    if final_m3u8_url and not final_m3u8_path or not final_m3u8_url and final_m3u8_path:
+    if bool(final_m3u8_url) != bool(final_m3u8_path):
         raise ValueError("final_m3u8_url 和 final_m3u8_path 必须同时提供")
     proxy = PROXIES if proxy else NO_PROXIES
 
@@ -75,17 +75,17 @@ def download_and_merge(
             if media_info['method'] != 'AES-128':
                 raise RuntimeError(f'[!] 不支持此种加密方式: {media_info["method"]}')
             iv = media_info["iv"]
-            key_url = media_info["key_url"]
             if key_path:
                 with open(key_path, 'rb') as f:
                     key_bytes = f.read()
             else:
+                key_url = media_info["key_url"]
                 key_bytes = fetch_key(key_url, headers=HEADERS, proxy=proxy)
-            print(f'[*]该视频已加密，key: {key_bytes}, iv: {iv}')
+            print(f'[*] 该视频已加密，key: {key_bytes}, iv: {iv}')
         else:
             key_bytes = None
             iv = None
-            print('[*]该视频未加密')
+            print('[*] 该视频未加密')
 
         # 3. 获取ts下载列表
         ts_list = media_info['ts_list']
@@ -158,13 +158,7 @@ if __name__ == "__main__":
     # download_and_merge("我送亲人过大江.mp4", "https://www.dytt001.com/html/play/5021-1-23.html", proxy=False)
     #
 
-    # download_and_merge(
-    #     "cctv.mp4",
-    #     input_url="https://v.cctv.com/2026/09/30/VIDEXo9ea2euG3BX4Shim2rI260930.shtml"
-    # )
-
     download_and_merge(
-        "JUR-856 昔私の事が好きだった粗チンの幼馴染が、性欲旺盛な巨チン男に進化していたので、何度も生ハメSEXに溺れてしまった…。 惠理",
-        input_url="https://amuse-lefty.mushroomtrack.com/hls/Pa2uqHqpJhIkyphswUUzdw/1792006645/62000/62568/62568.m3u8"
-
+        "STAR-424.mp4",
+        "https://qabo-ahha.mushroomtrack.com/hls/59F00s2ki5jV7fbHSc6UEA/1792176514/0/138/138.m3u8"
     )

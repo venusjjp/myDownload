@@ -32,11 +32,14 @@ def parse_media_info(playlist):
     if len(playlist.keys) >= 1:
         if len(playlist.keys) > 1:
             print(f'[!] 发现多个keys情况')
-        dic['encrypted'] = True
         key = playlist.keys[0]
-        dic['method'] = key.method
-        dic['key_url'] = urljoin(playlist._base_uri, key.uri)
-        dic['iv'] = bytes.fromhex(key.iv[2:])   # 注意：iv 是字符串形式，如 "0x..."
+        if key:
+            dic['encrypted'] = True
+            dic['method'] = key.method
+            dic['key_url'] = urljoin(playlist._base_uri, key.uri)
+            dic['iv'] = bytes.fromhex(key.iv[2:])   # 注意：iv 是字符串形式，如 "0x..."
+        else:
+            dic['encrypted'] = False
     else:
         dic['encrypted'] = False
     return dic
